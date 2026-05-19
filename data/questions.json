@@ -11,6 +11,18 @@
       "timestamp": "2026-05-19T15:16:00.477Z",
       "question": "test",
       "category": "Support"
+    },
+    {
+      "customerId": "anonymous_xfyh1vqhe",
+      "timestamp": "2026-05-19T15:18:05.219Z",
+      "question": "hallo",
+      "category": "Support"
+    },
+    {
+      "customerId": "anonymous_xfyh1vqhe",
+      "timestamp": "2026-05-19T15:18:12.868Z",
+      "question": "bonjour",
+      "category": "Support"
     }
   ]
 }
