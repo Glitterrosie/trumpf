@@ -113,14 +113,6 @@ export default function Analytics() {
               />
             </div>
 
-            {/* AI Insights box */}
-            {data.insights && (
-              <div className="tr-insights">
-                <span className="tr-insights__tag">KI-Erkenntnisse</span>
-                <p className="tr-insights__text">{data.insights}</p>
-              </div>
-            )}
-
             {/* Charts grid */}
             <div className="tr-charts-grid">
 
