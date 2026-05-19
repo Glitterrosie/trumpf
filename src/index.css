@@ -91,6 +91,43 @@ body {
 }
 
 /* ============================================================
+   Language selector
+   ============================================================ */
+.tr-lang {
+  margin-left: auto;
+}
+
+.tr-lang__select {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--tr-font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--tr-color-text);
+  background: var(--tr-color-white);
+  border: 1.5px solid var(--tr-color-border);
+  border-radius: 2px;
+  padding: 0.375rem 2rem 0.375rem 0.625rem;
+  cursor: pointer;
+  /* custom chevron */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231C1F22' stroke-width='2' stroke-linecap='square'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  transition: border-color 0.15s ease;
+}
+
+.tr-lang__select:hover {
+  border-color: var(--tr-color-primary);
+}
+
+.tr-lang__select:focus-visible {
+  outline: 3px solid var(--tr-color-focus-ring);
+  outline-offset: 2px;
+  border-color: var(--tr-color-primary);
+}
+
+/* ============================================================
    Stepper
    ============================================================ */
 .tr-stepper {

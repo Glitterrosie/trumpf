@@ -1,6 +1,9 @@
 import { Fragment } from 'react'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function PerspectiveSlider({ steps, active, onChange }) {
+  const { t } = useLanguage()
+
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowRight' && active < steps.length - 1) onChange(active + 1)
     if (e.key === 'ArrowLeft'  && active > 0)               onChange(active - 1)
@@ -9,7 +12,7 @@ export default function PerspectiveSlider({ steps, active, onChange }) {
   return (
     <nav
       className="tr-stepper"
-      aria-label="Perspektive wählen"
+      aria-label={t.selectPerspective}
       onKeyDown={handleKeyDown}
     >
       <div className="tr-stepper__track" role="list">
@@ -32,7 +35,7 @@ export default function PerspectiveSlider({ steps, active, onChange }) {
                 className="tr-stepper__btn"
                 onClick={() => onChange(i)}
                 aria-current={i === active ? 'step' : undefined}
-                aria-label={`${step.label}, Schritt ${i + 1} von ${steps.length}`}
+                aria-label={`${step.label}, ${t.stepOf(i + 1, steps.length)}`}
               />
               <span className="tr-stepper__label" aria-hidden="true">
                 {step.label}

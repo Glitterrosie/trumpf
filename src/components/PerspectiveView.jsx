@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
+import { useLanguage } from '../context/LanguageContext'
 
 /* Arrow icon — 2px stroke, no fill, per TRUMPF icon guidelines */
 function ArrowIcon({ direction }) {
@@ -24,7 +25,7 @@ function ArrowIcon({ direction }) {
 }
 
 /* Framer Motion variants — direction-aware slide + fade
-   custom: 1 = forward (left-to-right navigation), -1 = backward */
+   custom: 1 = forward, -1 = backward */
 const variants = {
   enter:  (dir) => ({ x: dir > 0 ?  60 : -60, opacity: 0 }),
   center:         ({ x: 0,                      opacity: 1 }),
@@ -37,11 +38,12 @@ const transition = {
 }
 
 export default function PerspectiveView({ perspectives, active, direction, onChange }) {
+  const { t } = useLanguage()
   const current = perspectives[active]
   const total   = perspectives.length
 
   return (
-    <section className="tr-pview" aria-label="Perspektive">
+    <section className="tr-pview" aria-label={t.perspectiveTag}>
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
           key={active}
@@ -66,7 +68,7 @@ export default function PerspectiveView({ perspectives, active, direction, onCha
       <div className="tr-pview__overlay" aria-hidden="true" />
 
       <div className="tr-pview__label">
-        <span className="tr-pview__label-tag">Perspektive</span>
+        <span className="tr-pview__label-tag">{t.perspectiveTag}</span>
         <span className="tr-pview__label-title">{current.label}</span>
       </div>
 
@@ -79,7 +81,7 @@ export default function PerspectiveView({ perspectives, active, direction, onCha
           className="tr-pview__nav-btn"
           onClick={() => onChange(active - 1)}
           disabled={active === 0}
-          aria-label="Vorherige Perspektive"
+          aria-label={t.prevPerspective}
         >
           <ArrowIcon direction="prev" />
         </button>
@@ -87,7 +89,7 @@ export default function PerspectiveView({ perspectives, active, direction, onCha
           className="tr-pview__nav-btn"
           onClick={() => onChange(active + 1)}
           disabled={active === total - 1}
-          aria-label="Nächste Perspektive"
+          aria-label={t.nextPerspective}
         >
           <ArrowIcon direction="next" />
         </button>
