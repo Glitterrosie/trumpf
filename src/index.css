@@ -1,0 +1,360 @@
+/* ============================================================
+   TRUMPF Design Tokens — matches TRUMPF_Web_Design_Guidelines.md
+   ============================================================ */
+:root {
+  --tr-color-primary:       #003366;
+  --tr-color-primary-deep:  #002244;
+  --tr-color-logo-blue:     #1038CC; /* exact bright blue from the TRUMPF logo mark */
+  --tr-color-teal:          #009999;
+  --tr-color-green:         #4B9B43;
+  --tr-color-green-hover:   #3E8237;
+  --tr-color-text:          #1C1F22;
+  --tr-color-bg-light:      #F4F5F7;
+  --tr-color-border:        #D1D5DB;
+  --tr-color-white:         #FFFFFF;
+  --tr-color-focus-ring:    rgba(0, 51, 102, 0.4);
+  --tr-font-sans:           "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --tr-max-width:           1440px;
+}
+
+/* ============================================================
+   Reset
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--tr-font-sans);
+  color: var(--tr-color-text);
+  background: var(--tr-color-white);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   App shell
+   ============================================================ */
+.tr-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.tr-perspectives {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   Header — white background with TRUMPF logo
+   ============================================================ */
+.tr-header {
+  background: var(--tr-color-white);
+  border-bottom: 1px solid var(--tr-color-border);
+  padding: 0 48px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* TRUMPF logo mark: bold wordmark above a solid blue block */
+.tr-logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.tr-logo__wordmark {
+  font-size: 1.625rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #000000;
+  text-transform: uppercase;
+  /* shift right to align the word's inner body with the block */
+  padding-left: 2px;
+}
+
+.tr-logo__block {
+  /* the blue rectangle beneath the wordmark — proportional to the real logo */
+  width: calc(100% - 2px);
+  height: 9px;
+  background: var(--tr-color-logo-blue);
+  margin-left: 2px;
+  border-radius: 0;
+}
+
+/* ============================================================
+   Stepper
+   ============================================================ */
+.tr-stepper {
+  padding: 40px 48px;
+  background: var(--tr-color-white);
+  border-bottom: 1px solid var(--tr-color-border);
+}
+
+.tr-stepper__track {
+  display: flex;
+  align-items: flex-start;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* connector line between steps */
+.tr-stepper__connector {
+  flex: 1;
+  height: 2px;
+  background: var(--tr-color-border);
+  margin-top: 15px; /* vertically center with the 32px step dot */
+  transition: background 0.35s ease;
+}
+
+.tr-stepper__connector--done {
+  background: var(--tr-color-teal);
+}
+
+/* individual step */
+.tr-stepper__item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+}
+
+/* The step indicator button — no numbers, just a sharp square dot */
+.tr-stepper__btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  border: 2px solid var(--tr-color-border);
+  background: var(--tr-color-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  /* inner dot — visible in inactive state */
+  position: relative;
+}
+
+.tr-stepper__btn::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  background: var(--tr-color-border);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.tr-stepper__btn:hover {
+  border-color: var(--tr-color-primary);
+}
+
+.tr-stepper__btn:hover::after {
+  background: var(--tr-color-primary);
+}
+
+.tr-stepper__btn:focus-visible {
+  outline: 3px solid var(--tr-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* active step */
+.tr-stepper__item--active .tr-stepper__btn {
+  background: var(--tr-color-primary);
+  border-color: var(--tr-color-primary);
+}
+
+.tr-stepper__item--active .tr-stepper__btn::after {
+  background: var(--tr-color-white);
+  transform: scale(1.2);
+}
+
+/* done step */
+.tr-stepper__item--done .tr-stepper__btn {
+  background: var(--tr-color-teal);
+  border-color: var(--tr-color-teal);
+}
+
+.tr-stepper__item--done .tr-stepper__btn::after {
+  background: var(--tr-color-white);
+}
+
+.tr-stepper__item--active .tr-stepper__btn:hover,
+.tr-stepper__item--done .tr-stepper__btn:hover {
+  opacity: 0.82;
+}
+
+.tr-stepper__label {
+  margin-top: 10px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #9CA3AF;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  user-select: none;
+}
+
+.tr-stepper__item--active .tr-stepper__label {
+  color: var(--tr-color-primary);
+  font-weight: 600;
+}
+
+.tr-stepper__item--done .tr-stepper__label {
+  color: var(--tr-color-teal);
+}
+
+/* ============================================================
+   Perspective View
+   ============================================================ */
+.tr-pview {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  /* fallback shown when image is missing */
+  background: linear-gradient(
+    135deg,
+    var(--tr-color-primary) 0%,
+    var(--tr-color-primary-deep) 100%
+  );
+  min-height: 65vh;
+}
+
+/* each animated image frame */
+.tr-pview__frame {
+  position: absolute;
+  inset: 0;
+}
+
+.tr-pview__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* gradient overlay from bottom */
+.tr-pview__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 34, 68, 0.80) 0%,
+    rgba(0, 34, 68, 0.25) 40%,
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+/* label block bottom-left */
+.tr-pview__label {
+  position: absolute;
+  bottom: 48px;
+  left: 48px;
+  pointer-events: none;
+}
+
+.tr-pview__label-tag {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--tr-color-teal);
+  margin-bottom: 8px;
+}
+
+.tr-pview__label-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--tr-color-white);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+/* prev / next nav bottom-right */
+.tr-pview__nav {
+  position: absolute;
+  bottom: 48px;
+  right: 48px;
+  display: flex;
+  gap: 8px;
+}
+
+.tr-pview__nav-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 2px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: var(--tr-color-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.tr-pview__nav-btn:hover:not(:disabled) {
+  background: var(--tr-color-primary);
+  border-color: var(--tr-color-primary);
+}
+
+.tr-pview__nav-btn:focus-visible {
+  outline: 3px solid var(--tr-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.tr-pview__nav-btn:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+/* step counter bottom-right above nav */
+.tr-pview__counter {
+  position: absolute;
+  bottom: 112px;
+  right: 48px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 599px) {
+  .tr-header { padding: 0 16px; height: 60px; }
+  .tr-logo__wordmark { font-size: 1.25rem; }
+  .tr-logo__block { height: 7px; }
+
+  .tr-stepper { padding: 28px 16px; }
+  .tr-stepper__track { max-width: 100%; }
+  .tr-stepper__item { width: auto; min-width: 72px; }
+  .tr-stepper__label { font-size: 0.625rem; white-space: normal; max-width: 68px; }
+
+  .tr-pview__label { bottom: 24px; left: 16px; right: 80px; }
+  .tr-pview__label-title { font-size: 1.5rem; }
+  .tr-pview__nav { bottom: 24px; right: 16px; }
+  .tr-pview__counter { bottom: 88px; right: 16px; }
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
