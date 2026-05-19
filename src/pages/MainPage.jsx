@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useLanguage } from '../context/LanguageContext'
 import Header from '../components/Header'
 import PerspectiveSlider from '../components/PerspectiveSlider'
@@ -35,15 +36,38 @@ export default function MainPage() {
       <Header />
       <main className="tr-perspectives">
         <PerspectiveSlider steps={perspectives} active={active} onChange={navigate} />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`slogan-${active}`}
+            className="tr-slogan"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{    opacity: 0, y:  6 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          >
+            {t.perspectiveSlogans[active]}
+          </motion.div>
+        </AnimatePresence>
         <PerspectiveView
           perspectives={perspectives}
           active={active}
           direction={direction}
           onChange={navigate}
         />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`text-${active}`}
+            className="tr-pview-text"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{    opacity: 0, y: 8 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+          >
+            <p>{t.perspectiveTexts[active]}</p>
+          </motion.div>
+        </AnimatePresence>
+        <ChatBot />
       </main>
-      {/* Floating chat widget — position set via CSS vars --tr-chat-bottom / --tr-chat-right */}
-      <ChatBot />
     </div>
   )
 }

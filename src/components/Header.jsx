@@ -8,9 +8,6 @@ export default function Header() {
         <span className="tr-logo__wordmark">TRUMPF</span>
         <div className="tr-logo__block" aria-hidden="true" />
       </Link>
-      <nav className="tr-header__nav" aria-label="Interne Navigation">
-        <Link to="/analytics" className="tr-header__nav-link">Analytics</Link>
-      </nav>
       <LanguageSelector />
     </header>
   )

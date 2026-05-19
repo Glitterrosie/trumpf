@@ -44,13 +44,14 @@ html, body, #root {
 .tr-app {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100%;
 }
 
 .tr-perspectives {
-  flex: 1;
+  min-height: calc(100vh - 72px);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 /* ============================================================
@@ -295,6 +296,51 @@ html, body, #root {
   pointer-events: none;
 }
 
+/* Perspective body text — sits below the image, changes with active tab */
+.tr-pview-text {
+  background: var(--tr-color-white);
+  padding: 64px 48px 72px;
+  flex-shrink: 0;
+}
+
+.tr-pview-text p {
+  max-width: 780px;
+  margin: 0 auto;
+  font-size: 1.1875rem;
+  line-height: 1.85;
+  color: #374151;
+  position: relative;
+  padding-left: 28px;
+}
+
+.tr-pview-text p::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  background: var(--tr-color-teal);
+  border-radius: 2px;
+}
+
+@media (max-width: 599px) {
+  .tr-pview-text { padding: 40px 16px 48px; }
+  .tr-pview-text p { font-size: 1rem; padding-left: 20px; }
+}
+
+/* Slogan header — sits between stepper and image */
+.tr-slogan {
+  background: var(--tr-color-primary);
+  color: var(--tr-color-white);
+  padding: 28px 48px;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  flex-shrink: 0;
+}
+
 /* label block bottom-left */
 .tr-pview__label {
   position: absolute;
@@ -464,71 +510,73 @@ html, body, #root {
    Change --tr-chat-bottom / --tr-chat-right to reposition.
    ============================================================ */
 :root {
-  --tr-chat-bottom: 32px;
-  --tr-chat-right:  32px;
   --tr-chat-width:  360px;
   --tr-chat-height: 480px;
 }
 
-/* Outer anchor — sets the fixed position on screen */
+/* Anchored inside .tr-perspectives so it scrolls with the image.
+   Adjust top / right to reposition over the worker's head. */
 .tr-chat-widget {
-  position: fixed;
-  bottom: var(--tr-chat-bottom);
-  right:  var(--tr-chat-right);
-  z-index: 200;
+  position: absolute;
+  top:   220px;   /* just into the image, above the worker's head */
+  right: 10vw;    /* horizontally over the worker (~65 % from left) */
+  z-index: 100;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px;
+  gap: 8px;
 }
 
-/* ── Speech bubble trigger button ── */
+/* ── Comic speech-bubble trigger ── */
 .tr-chat-bubble {
-  width: 56px;
-  height: 56px;
-  border-radius: 2px;
-  border: none;
-  background: var(--tr-color-primary);
-  color: var(--tr-color-white);
+  position: relative;
+  width: 160px;
+  height: 96px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 3px solid #1C1F22;
+  border-radius: 20px;
+  color: var(--tr-color-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  box-shadow: 0 4px 16px rgba(0, 51, 102, 0.35);
-  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.22);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Triangular tail — makes it look like a speech bubble */
+/* Outer tail — dark border */
+.tr-chat-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -28px;
+  left: 16px;
+  border-left:  10px solid transparent;
+  border-right: 20px solid transparent;
+  border-top:   28px solid #1C1F22;
+}
+
+/* Inner tail — white fill that masks border, leaving a thin outline */
 .tr-chat-bubble::after {
   content: '';
   position: absolute;
-  bottom: -8px;
-  right: 14px;
-  width: 0;
-  height: 0;
-  border-left:  8px solid transparent;
-  border-right: 0px solid transparent;
-  border-top:   8px solid var(--tr-color-primary);
-  transition: border-top-color 0.15s ease;
+  bottom: -20px;
+  left: 20px;
+  border-left:  6px solid transparent;
+  border-right: 14px solid transparent;
+  border-top:   20px solid rgba(255, 255, 255, 0.96);
 }
 
 .tr-chat-bubble:hover {
-  background: var(--tr-color-primary-deep);
-  box-shadow: 0 6px 20px rgba(0, 51, 102, 0.45);
   transform: translateY(-2px);
-}
-
-.tr-chat-bubble:hover::after {
-  border-top-color: var(--tr-color-primary-deep);
+  box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.28);
 }
 
 .tr-chat-bubble--active {
-  background: var(--tr-color-primary-deep);
+  background: var(--tr-color-bg-light);
 }
 
 .tr-chat-bubble--active::after {
-  border-top-color: var(--tr-color-primary-deep);
+  border-top-color: var(--tr-color-bg-light);
 }
 
 .tr-chat-bubble:focus-visible {
@@ -536,16 +584,27 @@ html, body, #root {
   outline-offset: 2px;
 }
 
+/* Text label inside the speech bubble */
+.tr-chat-bubble__text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--tr-color-primary);
+  line-height: 1.25;
+  text-align: center;
+  pointer-events: none;
+  padding: 0 12px;
+}
+
 /* Unread badge dot */
 .tr-chat-bubble__badge {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 9px;
-  height: 9px;
+  top: 6px;
+  right: 6px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #ef4444;
-  border: 2px solid var(--tr-color-white);
+  border: 2px solid rgba(255, 255, 255, 0.96);
 }
 
 /* ── Chat panel ── */
@@ -559,7 +618,10 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transform-origin: bottom right;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform-origin: top right;
 }
 
 /* Panel header */
@@ -945,6 +1007,213 @@ html, body, #root {
   font-size: 0.875rem;
   font-weight: 700;
   color: var(--tr-color-white);
+}
+
+/* ============================================================
+   Product Content sections
+   ============================================================ */
+.tr-section {
+  padding: 80px 0;
+}
+
+.tr-section--white  { background: var(--tr-color-white); }
+.tr-section--light  { background: var(--tr-color-bg-light); }
+.tr-section--primary { background: var(--tr-color-primary); }
+
+.tr-section__inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.tr-section__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--tr-color-primary);
+  letter-spacing: -0.015em;
+  margin-bottom: 12px;
+}
+
+.tr-section__title--light {
+  color: var(--tr-color-white);
+}
+
+.tr-section__subtitle {
+  font-size: 1rem;
+  color: #6B7280;
+  margin-bottom: 48px;
+  max-width: 680px;
+}
+
+/* ── Intro ── */
+.tr-product-intro {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.tr-label {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--tr-color-teal);
+  margin-bottom: 16px;
+}
+
+.tr-product-intro__headline {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--tr-color-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.tr-product-intro__subheadline {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #6B7280;
+  margin-bottom: 20px;
+}
+
+.tr-product-intro__body {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--tr-color-text);
+  margin-bottom: 32px;
+  max-width: 640px;
+}
+
+/* ── Advantage cards ── */
+.tr-adv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.tr-adv-card {
+  background: var(--tr-color-white);
+  border: 1px solid var(--tr-color-border);
+  border-top: 3px solid var(--tr-color-teal);
+  border-radius: 2px;
+  padding: 28px 24px;
+}
+
+.tr-adv-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--tr-color-primary);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.tr-adv-card__body {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: #4B5563;
+}
+
+/* ── Steps ── */
+.tr-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tr-step {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--tr-color-border);
+}
+
+.tr-step:first-child { border-top: 1px solid var(--tr-color-border); }
+
+.tr-step__num {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--tr-color-border);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  flex-shrink: 0;
+  width: 64px;
+  text-align: right;
+}
+
+.tr-step__content {
+  flex: 1;
+  padding-top: 4px;
+}
+
+.tr-step__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--tr-color-primary);
+  margin-bottom: 6px;
+}
+
+.tr-step__body {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: #4B5563;
+}
+
+/* ── Modes ── */
+.tr-modes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.tr-mode-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 2px;
+  padding: 32px;
+}
+
+.tr-mode-card--teal { border-top: 3px solid var(--tr-color-teal); }
+.tr-mode-card--green { border-top: 3px solid var(--tr-color-green); }
+
+.tr-mode-card__tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  padding: 5px 12px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--tr-color-white);
+}
+
+.tr-mode-card--teal .tr-mode-card__tag  { color: var(--tr-color-teal); }
+.tr-mode-card--green .tr-mode-card__tag { color: var(--tr-color-green); }
+
+.tr-mode-card__note {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* ── Responsive ── */
+@media (max-width: 899px) {
+  .tr-adv-grid { grid-template-columns: 1fr; }
+  .tr-modes-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 599px) {
+  .tr-section { padding: 52px 0; }
+  .tr-section__inner { padding: 0 16px; }
+  .tr-product-intro__headline { font-size: 1.625rem; }
+  .tr-step { gap: 16px; }
+  .tr-step__num { font-size: 1.75rem; width: 40px; }
 }
 
 /* ============================================================

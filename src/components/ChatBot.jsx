@@ -128,17 +128,30 @@ export default function ChatBot() {
   }
 
   return (
-    /* Position is controlled by CSS vars --tr-chat-bottom and --tr-chat-right */
+    /* Position is controlled by CSS vars --tr-chat-top and --tr-chat-right */
     <div className="tr-chat-widget">
 
-      {/* Floating chat panel */}
+      {/* Speech bubble trigger button */}
+      <button
+        className={`tr-chat-bubble${open ? ' tr-chat-bubble--active' : ''}`}
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? 'Chat schließen' : 'Chat öffnen'}
+        aria-expanded={open}
+      >
+        <span className="tr-chat-bubble__text">Haben Sie Fragen?</span>
+        {!open && messages.length > 1 && (
+          <span className="tr-chat-bubble__badge" aria-hidden="true" />
+        )}
+      </button>
+
+      {/* Floating chat panel — opens below the bubble */}
       <AnimatePresence>
         {open && (
           <motion.div
             className="tr-chat-panel"
-            initial={{ opacity: 0, y: 16, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0,  scale: 1    }}
-            exit={{    opacity: 0, y: 16, scale: 0.96 }}
+            initial={{ opacity: 0, y: -12, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0,   scale: 1    }}
+            exit={{    opacity: 0, y: -12, scale: 0.96 }}
             transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
             role="dialog"
             aria-label="TRUMPF Cutting Assistant Chat"
@@ -208,27 +221,6 @@ export default function ChatBot() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Speech bubble trigger button */}
-      <button
-        className={`tr-chat-bubble${open ? ' tr-chat-bubble--active' : ''}`}
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? 'Chat schließen' : 'Chat öffnen'}
-        aria-expanded={open}
-      >
-        {open ? <CloseIcon /> : (
-          /* Speech bubble SVG */
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" strokeWidth="2" strokeLinecap="square"
-            strokeLinejoin="miter" aria-hidden="true">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
-        )}
-        {/* Unread dot — shown when chat is closed and there are messages */}
-        {!open && messages.length > 1 && (
-          <span className="tr-chat-bubble__badge" aria-hidden="true" />
-        )}
-      </button>
     </div>
   )
 }

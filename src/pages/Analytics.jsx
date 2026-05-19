@@ -68,7 +68,7 @@ export default function Analytics() {
           <div>
             <h1 className="tr-analytics__title">Kundenanalyse</h1>
             <p className="tr-analytics__subtitle">
-              Anonymisierte Auswertung der Kundenfragen — Echtzeit-Analyse via Groq KI
+              Anonymisierte Auswertung der Kundenfragen
             </p>
           </div>
           <button
