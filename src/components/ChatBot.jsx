@@ -65,7 +65,8 @@ function TypingIndicator() {
 }
 
 export default function ChatBot() {
-  const { lang } = useLanguage()
+  const { lang, t } = useLanguage()
+  const c = t.chat
   const [open, setOpen]         = useState(false)
   const [messages, setMessages] = useState([])
   const [input, setInput]       = useState('')
@@ -135,10 +136,10 @@ export default function ChatBot() {
       <button
         className={`tr-chat-bubble${open ? ' tr-chat-bubble--active' : ''}`}
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? 'Chat schließen' : 'Chat öffnen'}
+        aria-label={open ? c.close : c.open}
         aria-expanded={open}
       >
-        <span className="tr-chat-bubble__text">Haben Sie Fragen?</span>
+        <span className="tr-chat-bubble__text">{c.bubble}</span>
         {!open && messages.length > 1 && (
           <span className="tr-chat-bubble__badge" aria-hidden="true" />
         )}
@@ -170,13 +171,13 @@ export default function ChatBot() {
                 <span className="tr-chat-panel__name">TRUMPF Cutting Assistant</span>
                 <span className="tr-chat-panel__status">
                   <span className="tr-chat-panel__dot" aria-hidden="true" />
-                  Online
+                  {c.online}
                 </span>
               </div>
               <button
                 className="tr-chat-panel__close"
                 onClick={() => setOpen(false)}
-                aria-label="Chat schließen"
+                aria-label={c.close}
               >
                 <CloseIcon />
               </button>
@@ -207,13 +208,13 @@ export default function ChatBot() {
                 placeholder={PLACEHOLDER[lang] ?? PLACEHOLDER.de}
                 rows={1}
                 disabled={loading}
-                aria-label="Nachricht eingeben"
+                aria-label={c.inputLabel}
               />
               <button
                 className="tr-chat__send"
                 onClick={send}
                 disabled={!input.trim() || loading}
-                aria-label="Senden"
+                aria-label={c.send}
               >
                 <SendIcon />
               </button>
